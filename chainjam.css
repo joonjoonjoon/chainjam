@@ -1,0 +1,578 @@
+
+body {
+	font-family: Helvetica, Verdana, Arial, sans-serif;
+	color: white;
+	margin:0px;
+  overflow: hidden;
+	font-size: 2vh;
+}
+
+iframe {
+	border: none;
+}
+
+div {
+	margin:0px;
+	padding:0px;
+}
+
+
+div:focus {
+	border-style:none;
+}
+
+embed:focus {
+	border-style:none;
+}
+
+a:link, a:visited {
+	color: #000;
+}
+a:active, a:hover {
+	color: #666;
+}
+p.header {
+	font-size: small;
+}
+p.header span {
+	font-weight: bold;
+}
+p.footer {
+	font-size: x-small;
+}
+div.content {
+	margin: auto;
+	width: 800px;
+}
+div.broken,
+div.missing {
+	margin: auto;
+	position: relative;
+	top: 50%;
+	width: 193px;
+}
+div.broken a,
+div.missing a {
+	height: 63px;
+	position: relative;
+	top: -31px;
+}
+div.broken img,
+div.missing img {
+	border-width: 0px;
+}
+div.broken {
+	display: none;
+}
+
+div#sideBarLeft {
+	top:0px;
+	width: 33.3333333%;
+	float: left;
+}
+
+div#content {
+	display:inline-block;
+	width: 66.6666666%;
+	float: left;
+}
+
+div#unityPlayer {
+	cursor: default;
+	height: 450px;
+	width: 800px;
+}
+
+div#sideBarRight {
+	right: 0;
+	position:absolute;
+	width: 33.3333333%;
+	text-align: left;
+	float: left;
+}
+
+.scorePlayer1 {
+	color:#313232;
+	background-color: #313232;
+}
+
+.scorePlayer2 {
+	color:#27ADE3;
+	background-color: #27ADE3;
+}
+
+.scorePlayer3 {
+	color:#EE368A;
+	background-color: #EE368A;
+}
+
+.scorePlayer4 {
+	color:#B0D136;
+	background-color: #B0D136;
+}
+
+.gameCube {
+	background-color: #ADBECF;
+	display: inline-block;
+	border:1px dashed #848484;
+	margin: 1px;
+}
+
+.gameCubeActive {
+	background-color: #848484;
+	border: 1px dashed #424242;
+	margin: 1px;
+}
+
+.gameCubeSolved {
+	background-color: #FFFFFF;
+	border: 1px solid #424242;
+}
+
+.gameCubeDamaged {
+	border: 1px dashed red;
+}
+
+
+.gameCubePlayer1,#p1win {
+	background-color:#313232;
+}
+
+.gameCubePlayer2, #p2win {
+	background-color:#27ADE3;
+}
+
+.gameCubePlayer3,#p3win {
+	background-color:#EE368A;
+}
+
+.gameCubePlayer4 ,#p4win{
+	background-color:#B0D136;
+}
+
+#GameList {
+	overflow-y: scroll;
+	overflow-x: hidden;
+	height: 64vh;
+}
+
+div#gameList {
+	display:none;
+	overflow: auto;
+	height:750px;
+}
+
+.gameChosen {
+	text-decoration:none;
+}
+.gameUnchosen {
+	text-decoration:line-through;
+}
+
+.menuEntry {
+	opacity: 0.6;	
+}
+
+
+/*------------------------------
+			Jonas
+------------------------------*/
+
+/**************
+COLORS
+***************
+Blue: #27ade3
+Pink: #ee368a
+Orange: #f57b20
+Light Grey: #696a6c
+Dark Grey: #313232
+Green: #b0d136
+**************/
+
+div.logo {
+	padding: 8% 0;
+	background-image: url('img/logo.svg');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 50%;
+}
+
+/**************
+INDEX
+**************/
+
+#score {
+	margin-left: 12%;
+}
+
+#score div {
+	display: inline;
+	float: left;
+}
+
+.scoreBox {
+	text-align: center;
+	margin-left: -2%;
+	margin-top: 3%;
+}
+
+.scoreBox > div {
+	width: 50%;
+	background-color: white;
+}
+
+.scoreBox div div {
+	color: white;
+}
+
+.scorePlayer1 > div:first-child {
+	background-color: #313232;
+}
+
+.scorePlayer2 > div:first-child {
+	background-color: #27ADE3;
+}
+
+.scorePlayer3 > div:first-child {
+	background-color: #EE368A;
+}
+
+.scorePlayer4 > div:first-child {
+	background-color: #B0D136;
+}
+
+.gameScore {
+	border-radius: 100%;
+	font-size:10vh;
+	line-height: 15vh;
+	width: 95%;
+}
+
+.totalScore {
+	opacity: 0.4;
+	border-radius: 100%;
+	font-size:3vh;
+	line-height: 6vh;
+	width: 40%;
+	background-color: black;
+	margin-top: 65%;
+	margin-right: -30%;
+	margin-left: -25%;
+}
+
+#sideBarRight {
+	color: #313232;
+}
+
+#sideBarLeft div {
+	text-align: center;
+	background-color: #313232;
+	color: white;
+}
+
+#sideBarLeft div:first-child {
+	font-size: 1.5vh;
+	font-weight: normal;	
+	margin: 5% 5% 0% 5%;
+	padding: 15% 7.5% 0% 7.5%;
+}
+
+#gameTimeCountdown {
+	margin: 0% 5% 0% 5%;
+	padding: 7.5% 7.5% 15% 7.5%;
+	font-size: 10vh;
+	font-weight: bold;
+}
+
+/**************
+MENU
+**************/
+
+.Menu {
+	background-color: #f57b20;
+	height: 100%;
+	font-size: 4.5vh;
+}
+
+div#MenuMain {
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	line-height: 13vh;
+	font-size: 4.5vh;
+}
+
+.MenuMainOptions {
+	color: #f8b380;
+	text-align: left;
+	margin-left: 20%;
+	margin-right: 20%;
+	margin-top: 0%;
+	width: 60%;
+}
+
+.MenuMainOptions div  {
+	padding-left: 7%;
+}
+
+.MenuMainOptions div div {
+	margin-left: -7%;
+	/*padding-right: 3%;*/
+}
+
+.MenuGameListOptions {
+	color: #f8b380;
+	text-align: left;
+	margin-left: 20%;
+	margin-right: 20%;
+	margin-top: 0%;
+	width: 60%;
+}
+
+.MenuGameListOptions div  {
+	padding-left: 7%;
+}
+
+.MenuGameListOptions div div {
+	margin-left: -7%;
+	/*padding-right: 3%;*/
+}
+
+div.menuEntrySelected {
+	color: white;
+	font-size: 7.5vh;
+	border-top: 1px solid #f8b380;
+	border-bottom: 1px solid #f8b380;
+	display: block;
+	background-image: url('img/arrow-right.svg');
+	background-repeat: no-repeat;
+	background-position: 0%;
+	background-size: 0.3em;
+	padding-right: 4%;
+	}
+
+div.MenuInstructions, div.MenuGameListInstructions {
+	width: 100%;
+	line-height: 5vh;
+	font-size: 3.5vh;
+	font-style: italic;
+	position: absolute;
+	bottom: 0;
+	margin-bottom: 5%;
+	text-align: center;
+}
+
+div#MenuMainGameNumber {
+	display: block;
+}
+
+div.menuEntrySelected div#MenuMainGameNumberNumber {
+	text-decoration: underline;
+}
+
+/**************
+SCORE BOARD
+**************/
+
+div#gameScoreList {
+	background-color: #696a6c;
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	font-size: 2.8vh;
+	line-height: 4vh;
+	/*overflow: scroll;*/
+}
+
+.playerCols {
+	height: 5%;
+	margin-left: 43.5%;
+	margin-bottom:1%;
+	display: block;
+}
+
+.playerCols div {
+	width: 5%;
+	height: 100%;
+	margin-right:10.5%;
+	display: inline-block;
+}
+
+.scoreBoardGameTitle {
+	width: 40%;
+	display: inline-block;
+	text-align: right;
+	font-size: 2.8vh;
+	line-height: 4vh;
+}
+
+.scoreBoardPlayerScore {
+	display: inline;
+}
+
+.scoreBoardPlayerScore div {
+	width: 9.4%;
+	display: inline-block;
+	text-align: center;
+	background-color: #5e5f61;
+	/*margin-bottom: 1%;*/
+}
+
+#gameScoreList2 {
+	overflow: auto;
+	height: 28%;
+	background-color: #5e5f61;
+}
+
+.scoreBoardResults > .scoreBoardPlayerScore div {
+	width: 8.9%;
+	background-color: #696a6c;	
+}
+
+.scoreBoardResults {
+	margin-top: 2.5%;
+}
+
+.scoreBoardInstructions {
+	text-align: center;
+	font-style: italic;
+	padding-top: 2%;
+}
+
+div#winner {
+	margin-top: 5%;
+	font-size: 7.5vh;
+	margin-right:4%;
+}
+
+#winnerBoxes div.selected {
+	display: inline-block;
+	margin-bottom: -1%;
+	margin-left: -1%;
+	width: 50px;
+	height: 50px;
+}
+
+#winnerBoxes div {
+	display: none;
+}
+
+
+
+/**************
+CREDITS
+**************/
+
+#countDown {
+	background-color: #27ade3;
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	font-size: 3.5vh;
+	line-height: 4vh;
+	text-align: center;
+}
+
+#countDownWrapper {
+	margin-left: 5%;
+	margin-right: 5%;
+	margin-top: 2%;
+}
+
+#gameName {
+	font-size: 7.5vh;
+	line-height: 9vh;
+}
+
+div#gameCreditsWrapper {
+	text-align: center;
+	display: block;
+}
+
+#gameCreditsWrapper div {
+	display: inline;
+}
+
+div#gameCountdown {
+	font-size: 10vh;
+	margin-top: 5%;
+}
+
+#gameInstructionsWrapper {
+	background-color: #1f8ab5;
+	padding: 2.5%;
+	position: absolute;
+	margin-right: auto;
+	margin-left: auto;
+	bottom: 7.5%;
+	left: 0;
+	width: 100%;
+}
+
+div#gameInstructionsWrapper {
+	background-color: #1f8ab5;
+	display: inline-block;
+	text-align: left;
+}
+
+#gameInstructionsWrapper > div:first-child {
+	float: left;
+	font-weight: bold;
+}
+
+#gameInstructions {
+	float: left;
+	padding-left: 3%;
+	margin-right: 3%;
+	width: 80%;
+}
+
+/*JOON'S STUFF*/
+
+#functions {
+	text-align:center;
+	font-size:10px;
+}
+
+.bounce:hover {
+  animation: bounce 1s .5s;
+  transform: scale(0.85);
+}
+
+@keyframes bounce {
+  0% { transform: scale(1.1); opacity: 1 }
+  50% { transform: scale(1.6); opacity: .7; }
+  60% { transform: scale(0.6); opacity: 1 }
+  80% { transform: scale(0.95) }
+  100% { transform: scale(0.85) }
+}
+
+#MenuMain a:link, 
+#MenuMain a:hover, 
+#MenuMain a:visited ,
+#MenuGameList a:link, 
+#MenuGameList a:hover, 
+#MenuGameList a:visited 
+{
+	text-decoration: none;
+	color:white;
+}
+
+#GameList {
+	margin-left: 10%;
+	padding-top: 1%;
+	padding-bottom: 3%;
+	margin-right: 10%;
+	background: #D3691D;
+	padding-left: 3%;
+	margin-top: 1%;
+}
+
+#MenuGameListFilterSelected {
+	margin-left: 0;
+	padding-left: 0;
+}
+
+div.MenuGameListInstructions  {
+	margin-bottom:0;
+}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="chainjam.css">
+</head>
+
+<body style="margin: 0px; padding: 0px; background-color: #ADBECF;">
+    
+    <div id="countDown">
+        <div class="logo"></div>
+        <div id="countDownWrapper">
+        
+            
+            <div id="gameName">Dot Collector Extreme: Supreme Block Commanders</div>
+            
+            <div id="gameCreditsWrapper">
+                <div style="font-weight: bold;">By:</div>
+                <div id="gameCredits">These Are People Who Made It</div>
+            </div>
+            <div id="gameCountdown">5</div>
+            <div id="gameInstructionsWrapper">
+                <div>Instructions</div>
+                <div id="gameInstructions">Game instructions goes here shfdg kjdfhgkjshdgfk jasdhgfakjsdhgf kajhsdfg kajsdg fkasdg fkajshdfg jkasdfg kjashdfg kjasdg fkjahsgd sdahgf  </div>
+            </div>
+            
+            <script type="text/javascript">
+            // how many seconds should the countdown last?
+            var hash = window.location.hash.substring(1);
+            if (hash == "") parent.LoadNextGame();
+            else 
+            {
+                $("#gameName").empty().append(parent._currentGame.name);
+                $("#gameInstructions").empty().append(parent._currentGame.instructions);
+                $("#gameCredits").empty().append(parent._currentGame.credits);
+            	setTimeout("parent.LoadNextGame()", hash * 1000);
+                setInterval("CountDown()", 1 * 1000);
+                setInterval("UpdateCountdown()", 100);
+            }
+
+            function UpdateCountdown()
+            {
+                $("#gameCountdown").empty().append(hash);
+            }
+
+            function CountDown()
+            {
+                hash--;
+            }
+            </script>
+        </div>
+    </div>
+</body>
+</html>

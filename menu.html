@@ -1,0 +1,469 @@
+<!DOCTYPE HTML>
+<!--
+#####################
+# Mini Game Machine #
+#####################
+File: menu.html
+Created by: Sam Walz <mail[at]samwalz.com> 09. September 2013
+Last changed by: Sam Walz <mail[at]samwalz.com> 29. September 2013
+-->
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="chainjam.css">
+    <script type="text/javascript" src="settings.js"></script>
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript">
+        function utf8_to_b64(str) {
+            var result = window.btoa(unescape(encodeURIComponent(str)));
+            return result.substring(0, result.length - 1);
+        }
+    </script>
+</head>
+<body>
+<div id="MenuCredits" class="Menu" style="position: fixed; width: 100%; display: none; overflow: hidden;">
+    
+    
+</div>
+<script type="text/javascript">
+
+    function MenuCredits()
+    {
+        $("#MenuCredits").css("top", 0);
+        $("#MenuCredits").empty();
+        $("#MenuCredits").append('<div id="MenuCreditsEmptyBlock" style="height: 101vh;"></div>');
+        $("#MenuCredits").append('<div class="menuTitle">Credits</div>');
+        AddCredit("Idea", "Jonatan van Hove");
+        AddCredit("Chain Game Machine", "Samuel Walz");
+        for (var i = 0; i < _g.length; i++)
+        {
+            if (_g[i].chosen) {
+                AddCredit(_g[i].name, _g[i].credits);
+            }
+        }
+        //alert($("#MenuCredits").innerHeight() + "");
+        $("#MenuCredits").css("top", -$("#MenuCredits").innerHeight()).animate(_g.length * 100);
+    }
+    
+    function AddCredit(title, text)
+    {
+        $("#MenuCredits").append(' <div class="creditSection">'
+                + '<div class="creditSectionTitle">' + title + '</div>'
+                + '<div class="creditSectionText">' + text + '</div>'
+                + '</div>');
+    }
+</script>
+<div id="MenuMain" class="Menu" style="position: fixed; width: 100%;">
+     <div class="logo"></div>
+    
+    <div class="MenuMainOptions">
+        <div id="MenuMainStart"><a href="#">PLAY</a></div>
+		<div id="MenuMainGameNumber">
+            <div style="display: inline-block"><a href="#">CHAIN LENGTH:</a></div>
+            <a href="#" id="filterleft" onclick="PressedLeft()">◂<div style="display: inline-block" id="MenuMainGameNumberNumber">_</div><a href="#" id="filterright" onclick="PressedRight()">▸</a>
+			<div style="display: inline-block; font-size:40%;" id="totalCount"><a href="#">/100</a></div>
+            
+        </div>
+        <div id="MenuMainGameList"><a href="#">GAME LIST</a></div>
+		<div id="MenuMainCredits"><a href="#">CREDITS</a></div>
+    </div>
+    <div class="MenuInstructions">up, down, left, right to change selection <br/> A to confirm</div>
+</div>
+<div id="MenuGameList" class="Menu" style="position: fixed; width: 100%; display: none;">
+    <div class="menuTitle">&nbsp;</div>
+	<div class="MenuGameListOptions">
+		<div id="MenuGameListMainMenu"><a href="#">Back</a></div>
+		<div id="MenuGameListFilter"><a href="#">Filter: </a><a href="#" id="filterleft" onclick="PressedLeft()">◂</a><div style="display: inline-block" id="MenuGameListFilterSelected">all</div><a href="#" id="filterright" onclick="PressedRight()">▸</a></div>
+	</div>
+    <div id="GameList"></div>
+	<div class="MenuGameListInstructions">use Mouse to select/deselect games</div>
+
+    <script type="text/javascript">
+		var _localStorageAvailable = (typeof(Storage)!=="undefined");
+        var _g = parent._g;
+        
+        
+		for (var i = 0; i < _g.length; i++)
+		{
+			// check if we stored information in the local storage
+			if (_localStorageAvailable)
+			{
+				var item = localStorage.getItem(utf8_to_b64(_g[i].path));
+				if (item != null) _g[i].chosen = (item === "true");
+			}
+			var item = $("#GameList")
+                .append('<div id="game' + i + '" class="' + (_g[i].chosen ? 'gameChosen' : 'gameUnchosen')
+                        + '" onclick="toggleGame(' + i + ');"><a href="#">' + _g[i].name + '</a></div>');
+		}
+		function toggleGame (id)
+		{
+			$("#game"+id).toggleClass("gameChosen gameUnchosen");
+			_g[id].chosen = (_g[id].chosen ? false : true);
+			if (_localStorageAvailable) 
+			{
+				//localStorage.removeItem(_g[id].path);
+				localStorage.setItem(utf8_to_b64(_g[id].path), _g[id].chosen);
+			}
+		}
+		function displayGame (id, visible)
+		{
+			$("#game"+id).css("display", (visible ? "block" : "none"));
+		}
+		
+		
+		// filters the game list
+		function FilterList()
+		{
+			for (var i = 0; i < _g.length; i++)
+			{
+				var filter = _gameListFilters[_gameListCurrentFilter];
+				switch(filter)
+				{
+					case "all":
+						if (!_g[i].chosen) {
+							toggleGame(i);
+							displayGame(i, true);
+						}
+						break;
+					default:
+						if (_g[i].type == filter) {
+							if (!_g[i].chosen) {
+								toggleGame(i);
+							}
+							displayGame(i, true);
+						} else {
+							if (_g[i].chosen) {
+								toggleGame(i);
+							}
+							displayGame(i, false);
+						}
+						break;
+				}
+			}
+		}
+        
+	</script>
+</div>
+<script type="text/javascript">
+<!--//
+    var MenuScreens = new Array();
+    var mc = 0;
+    MenuScreens[mc] = new Object();
+    MenuScreens[mc].id = "MenuMain";
+    MenuScreens[mc].selected = 0;
+    MenuScreens[mc].entries = new Array();
+	MenuScreens[mc].entries[0] = "MenuMainStart";
+    MenuScreens[mc].entries[1] = "MenuMainGameNumber";
+    MenuScreens[mc].entries[2] = "MenuMainGameList";
+    MenuScreens[mc].entries[3] = "MenuMainCredits";
+    mc++;
+    MenuScreens[mc] = new Object();
+    MenuScreens[mc].id = "MenuGameList";
+    MenuScreens[mc].selected = 0;
+    MenuScreens[mc].entries = new Array();
+    MenuScreens[mc].entries[0] = "MenuGameListMainMenu";
+	MenuScreens[mc].entries[1] = "MenuGameListFilter";
+    mc++;
+    MenuScreens[mc] = new Object();
+    MenuScreens[mc].id = "MenuCredits";
+    MenuScreens[mc].selected = 0;
+    MenuScreens[mc].entries = new Array();
+    //MenuScreens[mc].entries[0] = "MenuGameListMainMenu";
+    var _currentScreen = MenuScreens[0];
+    var _chosenGamesAmount = 0;
+	
+	// variables for filtering the game list
+	var _gameListFilters = ["all", "unity", "flash", "html5", "java"];
+	var _gameListCurrentFilter = 0;
+    
+    function Show(screenName)
+    {
+        for (var i = 0; i < MenuScreens.length; i++)
+        {
+            if (MenuScreens[i].id == screenName) {
+                $("#" + MenuScreens[i].id).fadeIn(300);
+                _currentScreen = MenuScreens[i];
+            } else {
+                $("#" + MenuScreens[i].id).fadeOut(300);
+            }
+        }
+    }
+    
+    // reacting to key events - to make the menu an interactive experience
+    window.addEventListener("keydown", KeyDown, false);
+    function KeyDown(event) {
+        switch(event.keyCode)
+        {
+            case 38: // up arrow P1
+            case 'I'.charCodeAt(0): // P2
+            case 'W'.charCodeAt(0): // P3
+            case 'T'.charCodeAt(0): // P4
+                PressedUp();        
+                break;
+            
+            case 40: // down arrow P1
+            case 'K'.charCodeAt(0): // P2
+            case 'S'.charCodeAt(0): // P3
+            case 'G'.charCodeAt(0): // P4
+				PressedDown();
+                break;
+            
+            case 37: // left arrow P1
+            case 'J'.charCodeAt(0): // P2
+            case 'A'.charCodeAt(0): // P3
+            case 'F'.charCodeAt(0): // P4
+                PressedLeft();
+                break;
+            
+            case 39: // right arrow P1
+            case 'L'.charCodeAt(0): // P2
+            case 'D'.charCodeAt(0): // P3
+            case 'H'.charCodeAt(0): // P4
+                PressedRight();
+                break;
+            
+            case 90: // z -> A P1
+            case 'N'.charCodeAt(0): // P2
+            case 'Q'.charCodeAt(0): // P3
+            case 'R'.charCodeAt(0): // P4			
+                PressedA();
+                break;
+                
+            case 88: // x -> B P1
+            case 'M'.charCodeAt(0): // P2
+            case 'E'.charCodeAt(0): // P3
+            case 'Y'.charCodeAt(0): // P4
+                PressedB();
+                break;
+        }
+    }
+    
+    // an UP key has been pressed
+    function PressedUp()
+    {
+        MenuUp();
+    }
+    
+    // a DOWN key has been pressed
+    function PressedDown()
+    {
+        MenuDown();
+    }
+    
+    // a LEFT key has been pressed
+    function PressedLeft()
+    {
+        switch(_currentScreen.id)
+        {
+            case "MenuMain":
+                switch(_currentScreen.selected) {
+                    case 1: // number of games
+                        if (parent._selectedGamesAmount > 1) {
+                            parent._selectedGamesAmount--;
+                            $("#MenuMainGameNumberNumber").empty().append(parent._selectedGamesAmount);
+                        }
+                        break;
+					default:
+						_currentScreen.selected = 1;
+						PressedLeft();
+						UpdateCSS();
+						break;
+                }
+                break;
+            case "MenuGameList":
+				switch (_currentScreen.selected) {
+					case 1: // filter selection
+						if (_gameListCurrentFilter > 0) {
+							_gameListCurrentFilter--;
+							$("#MenuGameListFilterSelected").empty().append(_gameListFilters[_gameListCurrentFilter]);
+							FilterList();
+						}
+						else
+						{
+							_gameListCurrentFilter = _gameListFilters.length - 1;
+							$("#MenuGameListFilterSelected").empty().append(_gameListFilters[_gameListCurrentFilter]);
+							FilterList();
+						}
+						break;
+					default:
+						_currentScreen.selected = 1;
+						PressedLeft();
+						UpdateCSS();
+						break;
+				}
+                break;
+        }
+    }
+    
+    // a RIGHT key has been pressed
+    function PressedRight()
+    {
+        switch(_currentScreen.id)
+        {
+            case "MenuMain":
+                switch(_currentScreen.selected) {
+                    case 1: // number of games
+                        if (parent._selectedGamesAmount < _chosenGamesAmount) {
+                            parent._selectedGamesAmount++;
+                            $("#MenuMainGameNumberNumber").empty().append(parent._selectedGamesAmount);
+                        }
+                    	break;
+					default:
+						_currentScreen.selected = 1;
+						PressedRight();
+						UpdateCSS();
+						break;
+                }
+                break;
+            case "MenuGameList":
+				switch (_currentScreen.selected) {
+					case 1: // filter selection
+						if (_gameListCurrentFilter < _gameListFilters.length - 1) {
+							_gameListCurrentFilter++;
+							$("#MenuGameListFilterSelected").empty().append(_gameListFilters[_gameListCurrentFilter]);
+							FilterList();
+						}
+						else
+						{
+							_gameListCurrentFilter =0;
+							$("#MenuGameListFilterSelected").empty().append(_gameListFilters[_gameListCurrentFilter]);
+							FilterList();						
+						}
+						break;
+					default:
+						_currentScreen.selected = 1;
+						PressedRight();
+						UpdateCSS();
+						break;
+				}
+                break;
+        }
+    }
+    
+    // an A key has been pressed
+    function PressedA()
+    {
+        switch(_currentScreen.id)
+        {
+            case "MenuMain":
+                switch(_currentScreen.selected) {
+                    case 0: // start game
+						Play();
+                        break;
+                    case 2: // show game list
+                        Show("MenuGameList");
+                        //_currentScreen = MenuScreens[1];
+                        UpdateCSS();
+                        break;
+                    case 3:
+                        Show("MenuCredits");
+                        MenuCredits();
+                        //_currentScreen = MenuScreens[2];
+                        break;
+                }
+                break;
+            case "MenuGameList":
+                switch(_currentScreen.selected) {
+                    case 0: // show main menu
+                        Show("MenuMain");
+                        //_currentScreen = MenuScreens[0];
+                        UpdateCSS();
+                        CountChosenGames();
+                        break;
+                }
+                break;
+            case "MenuCredits":
+                Show("MenuMain");
+                //_currentScreen = MenuScreens[0];
+                break;
+        }
+    }
+    
+    // one of the players pressed his/her B key/button
+    function PressedB()
+    {
+        Show("MenuMain");
+    }
+    
+	function Play() {
+		parent.CompileGamesList(parent._selectedGamesAmount);
+		parent.StartGames();
+
+	}
+	
+    // go one entry up in the menu
+    function MenuUp()
+    {
+        _currentScreen.selected = (_currentScreen.selected + _currentScreen.entries.length - 1) % _currentScreen.entries.length;
+        UpdateCSS();
+    }
+    
+    // go one entry down in the menu
+    function MenuDown()
+    {
+        _currentScreen.selected = (_currentScreen.selected + _currentScreen.entries.length + 1) % _currentScreen.entries.length;
+        UpdateCSS();
+    }
+    
+	
+	
+    // adjust the CSS style according to the new selection
+    function UpdateCSS()
+    {
+        for (var i = 0; i < _currentScreen.entries.length; i++) {
+            if (i == _currentScreen.selected) {
+                $("#" + _currentScreen.entries[i]).addClass("menuEntrySelected");
+            } else {
+                $("#" + _currentScreen.entries[i]).removeClass("menuEntrySelected");
+            }
+        }
+    }
+    
+    // count chosen games
+    function CountChosenGames()
+    {
+        var count = 0;
+        for (var i = 0; i < _g.length; i++)
+        {
+            if (_g[i].chosen) {
+                count++;
+            }
+        }
+        parent._selectedGamesAmount = count;
+        //_chosenGamesAmount = count;
+        //$("#MenuMainGameNumberNumber").empty().append(count);
+		if(count >= 5)
+		{
+			parent._selectedGamesAmount = 5;
+		}
+		else
+		{
+			parent._selectedGamesAmount = count;
+		}
+		_chosenGamesAmount = count;
+		$("#MenuMainGameNumberNumber").empty().append(parent._selectedGamesAmount);
+
+		
+		$("#totalCount").empty().append("/ " + count);
+
+    }
+    
+    $("#MenuMainGameList").click(function(){
+        Show("MenuGameList");
+	});
+    $("#MenuGameListMainMenu").click(function(){
+        Show("MenuMain");
+	});
+	$("#MenuMainCredits").click(function(){
+        Show("MenuCredits");
+	});
+    $("#MenuMainStart").click(function(){
+		Play();
+	});
+    
+    UpdateCSS();
+    CountChosenGames();
+//-->
+</script>
+</body>
+</html>

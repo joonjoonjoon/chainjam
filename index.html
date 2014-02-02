@@ -1,0 +1,259 @@
+<!DOCTYPE HTML>
+<!--
+#####################
+# Mini Game Machine #
+#####################
+File: index.html
+Created by: Sam Walz <mail[at]samwalz.com> 05. September 2013
+Last changed by: Sam Walz <mail[at]samwalz.com> 23. September 2013
+-->
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Mini Game Machine</title>
+		<link rel="stylesheet" type="text/css" href="chainjam.css">
+		<script type="text/javascript" src="gamelist.js"></script>
+		<script type="text/javascript" src="settings.js"></script>
+		<script type="text/javascript" src="jquery.min.js"></script>
+	</head>
+<body>	
+	<script type="text/javascript">
+		window.addEventListener("keydown", function(e) {
+			// space and arrow keys
+			if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+				e.preventDefault();
+			}
+		}, false);
+	</script>
+	<script type="text/javascript">
+	<!--
+	var unityObjectUrl = "UnityObject2.js";
+	if (document.location.protocol == 'https:')
+		unityObjectUrl = unityObjectUrl.replace("http://", "https://ssl-");
+	document.write('<script type="text\/javascript" src="' + unityObjectUrl + '"><\/script>');
+	-->
+	</script>
+
+	<!-- SIDEBAR LEFT -->
+	<div id="sideBarLeft">
+    	<div>Game Ends In:</div>
+    	<div id="gameTimeCountdown"></div>
+    </div>
+
+    <!-- CONTENT -->
+	<div id="content">
+		<div id="flashPlayer"></div>
+		<div id="javaPlayer"></div>
+		<div id="html5Player"></div>
+		<div id="unityPlayer">
+			<div class="missing">
+				<a href="http://unity3d.com/webplayer/" title="Unity Web Player. Install now!">
+					<img alt="Unity Web Player. Install now!" src="http://webplayer.unity3d.com/installation/getunity.png" width="193" height="63" />
+				</a>
+			</div>
+			<div class="broken">
+				<a href="http://unity3d.com/webplayer/" title="Unity Web Player. Install now! Restart your browser after install.">
+					<img alt="Unity Web Player. Install now! Restart your browser after install." src="http://webplayer.unity3d.com/installation/getunityrestart.png" width="193" height="63" />
+				</a>
+			</div>
+		</div>
+		<div id="functions">
+			<a href="#" onclick="ShowMenu()" id="miniMenuMenu">menu</a>
+			&nbsp;&nbsp;&nbsp;
+			<a href="#" onclick="GameEnd()" id="miniMenuSkip">skip</a>
+			&nbsp;&nbsp;&nbsp;
+			<a href="#" onclick="Report()" id="miniMenuReportBroken">report</a>
+		</div>
+		<!-- SCORE -->
+		<div id="score">
+			<!-- Player 1 -->
+			<div class="scoreBox">
+				<div class="scorePlayer1">
+					<div id="currentScorePlayer1" class="gameScore">0
+					</div>
+
+					<div id="totalScorePlayer1" class="totalScore">0
+					</div>
+				</div>
+			</div>
+			<!-- Player 2 -->
+			<div class="scoreBox">
+				<div class="scorePlayer2">
+					<div id="currentScorePlayer2" class="gameScore">0
+					</div>
+
+					<div id="totalScorePlayer2" class="totalScore">0
+					</div>
+				</div>
+			</div>
+			<!-- Player 3 -->
+			<div class="scoreBox">
+				<div class="scorePlayer3">
+					<div id="currentScorePlayer3" class="gameScore">0
+					</div>
+					<div id="totalScorePlayer3" class="totalScore">0
+					</div>
+				</div>
+			</div>
+			<!-- Player 4 -->
+			<div class="scoreBox">
+				<div class="scorePlayer4">
+					<div id="currentScorePlayer4" class="gameScore">0
+					</div>
+					<div id="totalScorePlayer4" class="totalScore">0
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- SIDEBAR RIGHT -->
+	<div id="sideBarRight"></div>
+	
+	<script type="text/javascript" src="miniGameMachine.js"></script>
+	<script type="text/javascript">
+	
+	
+	<!--
+	/*
+	 * functions to be called from any unity player
+	 */
+	function GameStart() // will tell the framework that the game has begun
+	{
+	    if (_gameStartReceived) { return; } // security
+		_gameStartReceived = true;
+			
+		// stop the timeout: the game has responded
+		window.clearInterval(_timeToRespondTimer);
+		
+		// set coundown
+		_gameTimeCountdownTimer = window.setInterval("CountDownGameTime()", 1000);
+		_gameTimeCoundown = _maximumTimePerGame + 1;
+		CountDownGameTime();
+		
+		// timeout for game's maximum runtime
+	    _maximumTimePerGameTimer = window.setTimeout("GameReachedMaximumTime()", _maximumTimePerGame * 1000);
+		
+		
+	}
+
+	function GameEnd() // will tell the framework that the game has ended
+	{
+		if(_gameRunning)
+		{
+			_gameRunning = false; // game is not running anymore
+			
+			// clear countdown display and interval timer
+			window.clearInterval(_gameTimeCountdownTimer);
+			
+			// stop game timeout
+			window.clearTimeout(_maximumTimePerGameTimer);
+			
+			// color game cube accordingly
+			ColorGameCube();
+			
+			// and let us prepare for the next game
+			ShowCountdownToGame();
+		}
+	}
+	
+	function Report()
+	{
+		window.open("https://docs.google.com/forms/d/1tcIUxvCtdrHds0u3x_R7DmHC9kF6hCTB5Q2LomZGb-Q/viewform?entry.2143018531=" +  _currentGame.name + "&entry.663015769&entry.879214927", '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
+	
+	}
+
+	function PlayerOnePoints(amount) // will add <amount> points to the current game for player 1
+	{
+		PlayerPoints(0, amount);
+	}
+
+	function PlayerTwoPoints(amount) // will add <amount> points to the current game for player 2
+	{
+		PlayerPoints(1, amount);
+	}
+
+	function PlayerThreePoints(amount) // will add <amount> points to the current game for player 3
+	{
+		PlayerPoints(2, amount);
+	}
+
+	function PlayerFourPoints(amount) // will add <amount> points to the current game for player 4
+	{
+		PlayerPoints(3, amount);
+	}
+
+	/*
+	 * can be called from a minigame-unity player to stop a game and go back to the main menu
+	 */
+	function ShowMenu() // will show the game menu
+	{
+		//LoadUnityGame("menu.unity3d");
+		LoadHTML5Game("menu.html");
+	}
+
+	// load the initial game menu or just load a single game
+	var hash = window.location.hash.substring(1);
+	if (hash == "") // no direct game access
+	{
+		ShowMenu();
+	}
+	else 
+	{
+		var params = hash.split("&");
+		
+		
+		if (params.length == 1) { // one parameter -> find a game with given path in the game directory
+			
+			var currentItem = _games;
+			while (currentItem != null)
+			{
+				if (currentItem.path == hash)
+				{
+					_currentGame = currentItem;
+					_currentGame.next = null;
+					_games = _currentGame;
+					LoadGame(currentItem, false);
+					break;
+				}
+				currentItem = currentItem.next;
+			}
+		}
+		else if (params.length > 1) { // multiple parameters -> debug mode
+			var game = new Object();
+			game.path = "";
+			game.chosen = true;
+			game.name = "DEBUG MODE";
+			game.type = "";
+			game.credits = "DEBUG MODE";
+			game.instructions = "DEBUG MODE";
+			game.next = null;
+			
+			for (var i = 0; i < params.length; i++) {
+				var split = params[i].split("=");
+				switch (split[0])
+				{
+					case "path":
+						game.path = split[1];
+						break;
+					case "type":
+						game.type = split[1];
+						break;
+				}
+			}
+			
+			_games = game;
+			_currentGame = game;
+			LoadGame(_games, false);
+			
+		}
+		
+	}
+
+	$(window).resize(function() {
+	    OptimizeDimensions();
+	});
+	//-->
+	</script>
+</body>
+</html>

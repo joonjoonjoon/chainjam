@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<!--
+#####################
+# Mini Game Machine #
+#####################
+File: scoreBoard.html
+Created by: Sam Walz <mail[at]samwalz.com> 09. September 2013
+Last changed by: Sam Walz <mail[at]samwalz.com> 12. September 2013
+-->
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <script type="text/javascript" src="jquery.min.js"></script>
+	<script type="text/javascript" src="settings.js"></script>
+    <link rel="stylesheet" type="text/css" href="chainjam.css">
+</head>
+      	<script type="text/javascript">
+			$( document ).ready(function() {
+				var currentItem = parent._selectedGames;
+				var p1total = 0;
+				var p2total = 0;
+				var p3total = 0;
+				var p4total = 0;
+				while (currentItem)
+				{
+					p1total += currentItem.score[0];
+					p2total += currentItem.score[1];
+					p3total += currentItem.score[2];
+					p4total += currentItem.score[3];
+					$("#gameScoreList2").append('<div class="scoreBoardGameTitle">' + currentItem.name + '</div>'
+											   + '<div class="scoreBoardPlayerScore">'
+												 + '<div class="scorePlayer1">' + currentItem.score[0] + '</div>'
+												 + '<div class="scorePlayer2">' + currentItem.score[1] + '</div>'
+												 + '<div class="scorePlayer3">' + currentItem.score[2] + '</div>'
+												 + '<div class="scorePlayer4">' + currentItem.score[3] + '</div>'
+											  + '</div>');
+					currentItem = currentItem.next;
+				}
+
+				$("#TotalP1").text(p1total);
+				$("#TotalP2").text(p2total);
+				$("#TotalP3").text(p3total);
+				$("#TotalP4").text(p4total); 
+				
+				var highesttotal = p1total;
+				if(highesttotal < p2total) highesttotal = p2total;
+				if(highesttotal < p3total) highesttotal = p3total;
+				if(highesttotal < p4total) highesttotal = p4total;
+				
+				// ADDING CLASS "SELECTED" TO WINNER
+				if(p1total == highesttotal) $("#p1win").addClass('selected');
+				if(p2total == highesttotal) $("#p2win").addClass('selected');
+				if(p3total == highesttotal) $("#p3win").addClass('selected');
+				if(p4total == highesttotal) $("#p4win").addClass('selected');
+
+				// CHANGING OPACITY OF WINNER
+				// if(p1total == highesttotal) $("#p1win").css({ opacity: 1 });
+				// if(p2total == highesttotal) $("#p2win").css({ opacity: 1 });
+				// if(p3total == highesttotal) $("#p3win").css({ opacity: 1 });
+				// if(p4total == highesttotal) $("#p4win").css({ opacity: 1 });
+
+				// TESTING HTML OUTPUT
+				console.log( "ready1" );
+			});
+			
+			var allowAnotherRound  = false;
+			setInterval(function(){allowAnotherRound = true;},_scoreboardControllerLockTimeSeconds * 1000);
+			
+			function myFunction()
+			{
+				if(allowAnotherRound)
+				{
+					parent.AnotherRound();
+				}
+			}
+      	</script>
+
+<body onkeypress="myFunction();">
+    <div id="gameScoreList">
+	    <div class="logo"></div>
+	    <div class="playerCols">
+	        <div class="scorePlayer1"></div>
+	        <div class="scorePlayer2"></div>
+	        <div class="scorePlayer3"></div>
+	        <div class="scorePlayer4"></div>
+	    </div>
+		<div id="gameScoreList2">
+		<!-- Script output Start -->
+		<!-- Script output Stop -->
+		</div>
+
+		<div class="scoreBoardResults">
+	        <div class="scoreBoardGameTitle">TOTAL</div>
+	        <div class="scoreBoardPlayerScore">
+				<div id="TotalP1" class="scorePlayer1"></div>
+				<div id="TotalP2" class="scorePlayer2"></div>
+				<div id="TotalP3" class="scorePlayer3"></div>
+				<div id="TotalP4" class="scorePlayer4"></div>
+	        </div>
+	        <div class="scoreBoardGameTitle" id="winner">WINNER</div>
+			<div id="winnerBoxes" class="scoreBoardPlayerScore">
+				<div id="p1win"></div>
+				<div id="p2win"></div>
+				<div id="p3win"></div>
+				<div id="p4win"></div>
+			</div>
+		</div>
+		<div class="scoreBoardInstructions">A or B to restart</div>
+    </div>
+  </body>
+</html>
