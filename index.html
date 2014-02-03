@@ -11,12 +11,13 @@ Last changed by: Sam Walz <mail[at]samwalz.com> 23. September 2013
 	<head>
 		<meta charset="UTF-8" />
 		<title>Mini Game Machine</title>
-		<link rel="stylesheet" type="text/css" href="chainjam.css">
-		<script type="text/javascript" src="gamelist.js"></script>
-		<script type="text/javascript" src="settings.js"></script>
-		<script type="text/javascript" src="jquery.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/chainjam.css">
+		<script type="text/javascript" src="js/gamelist.js"></script>
+		<script type="text/javascript" src="js/settings.js"></script>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/miniGameMachine.js"></script>
 	</head>
-<body>	
+<body onload="OptimizeDimensions()">	
 	<script type="text/javascript">
 		window.addEventListener("keydown", function(e) {
 			// space and arrow keys
@@ -27,7 +28,7 @@ Last changed by: Sam Walz <mail[at]samwalz.com> 23. September 2013
 	</script>
 	<script type="text/javascript">
 	<!--
-	var unityObjectUrl = "UnityObject2.js";
+	var unityObjectUrl = "lib/UnityObject2.js";
 	if (document.location.protocol == 'https:')
 		unityObjectUrl = unityObjectUrl.replace("http://", "https://ssl-");
 	document.write('<script type="text\/javascript" src="' + unityObjectUrl + '"><\/script>');
@@ -58,7 +59,8 @@ Last changed by: Sam Walz <mail[at]samwalz.com> 23. September 2013
 			</div>
 		</div>
 		<div id="functions">
-			<a href="#" onclick="ShowMenu()" id="miniMenuMenu">menu</a>
+			<!--<a href="#" onclick="ShowMenu()" id="miniMenuMenu">menu</a>-->
+			<a href="index.html">menu</a>
 			&nbsp;&nbsp;&nbsp;
 			<a href="#" onclick="GameEnd()" id="miniMenuSkip">skip</a>
 			&nbsp;&nbsp;&nbsp;
@@ -76,6 +78,7 @@ Last changed by: Sam Walz <mail[at]samwalz.com> 23. September 2013
 					</div>
 				</div>
 			</div>
+			
 			<!-- Player 2 -->
 			<div class="scoreBox">
 				<div class="scorePlayer2">
@@ -110,10 +113,7 @@ Last changed by: Sam Walz <mail[at]samwalz.com> 23. September 2013
 	<!-- SIDEBAR RIGHT -->
 	<div id="sideBarRight"></div>
 	
-	<script type="text/javascript" src="miniGameMachine.js"></script>
-	<script type="text/javascript">
-	
-	
+	<script type="text/javascript">	
 	<!--
 	/*
 	 * functions to be called from any unity player

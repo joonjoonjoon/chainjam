@@ -99,16 +99,19 @@ div#sideBarRight {
 .scorePlayer2 {
 	color:#27ADE3;
 	background-color: #27ADE3;
+	visibility:hidden;
 }
 
 .scorePlayer3 {
 	color:#EE368A;
 	background-color: #EE368A;
+	visibility:hidden;
 }
 
 .scorePlayer4 {
 	color:#B0D136;
 	background-color: #B0D136;
+	visibility:hidden;
 }
 
 .gameCube {
@@ -191,7 +194,7 @@ Green: #b0d136
 
 div.logo {
 	padding: 8% 0;
-	background-image: url('img/logo.svg');
+	background-image: url('../img/logo.svg');
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: 50%;
@@ -344,7 +347,7 @@ div.menuEntrySelected {
 	border-top: 1px solid #f8b380;
 	border-bottom: 1px solid #f8b380;
 	display: block;
-	background-image: url('img/arrow-right.svg');
+	background-image: url('../img/arrow-right.svg');
 	background-repeat: no-repeat;
 	background-position: 0%;
 	background-size: 0.3em;
@@ -443,6 +446,7 @@ div#winner {
 	margin-top: 5%;
 	font-size: 7.5vh;
 	margin-right:4%;
+	visibility:hidden;
 }
 
 #winnerBoxes div.selected {
@@ -451,6 +455,8 @@ div#winner {
 	margin-left: -1%;
 	width: 50px;
 	height: 50px;
+	visibility:hidden;
+
 }
 
 #winnerBoxes div {
