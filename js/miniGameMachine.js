@@ -287,7 +287,7 @@ function StartGames()
 function PlayerPoints(player, amount)
 {
     var number = GetNumber(amount);
-	if (_totalScoreCurrentGame + number <= _maxPointsPerGame)
+	if (_totalScoreCurrentGame + number <= _maxPointsPerGame && _totalScoreCurrentGame + number >= 0)
 	{
 		_totalScoreCurrentGame += number;
 		_currentGame.score[player] += number;
