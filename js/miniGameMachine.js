@@ -291,7 +291,14 @@ function PlayerPoints(player, amount)
 	{
 		_totalScoreCurrentGame += number;
 		_currentGame.score[player] += number;
-		_totalPlayerScore[player] += number;
+		if(!isNaN(_totalPlayerScore[player]))
+		{
+			_totalPlayerScore[player] += number;
+		}
+		else
+		{
+			_totalPlayerScore[player] = number;
+		}
 		document.getElementById("totalScorePlayer" + (player + 1)).innerHTML = _totalPlayerScore[player];
 		document.getElementById("currentScorePlayer" + (player + 1)).innerHTML = _currentGame.score[player];
 	}
